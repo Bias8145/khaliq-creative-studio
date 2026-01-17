@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, X, Loader2, Wand2, Upload, Link as LinkIcon, Image as ImageIcon, FileText, Save, Video } from 'lucide-react';
+import { Plus, X, Loader2, Wand2, Upload, Link as LinkIcon, Image as ImageIcon, FileText, Save, Video, AlertCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase, type Link } from '../lib/supabase';
 import { fetchMetadata } from '../lib/utils';
@@ -107,7 +107,6 @@ export const AddLink = ({ onAdd, isAdmin, linkToEdit, onCloseEdit }: AddLinkProp
           .upload(filePath, file);
 
         if (uploadError) {
-          // Even with the error, we throw it to show the toast
           throw uploadError;
         }
 
@@ -194,7 +193,6 @@ export const AddLink = ({ onAdd, isAdmin, linkToEdit, onCloseEdit }: AddLinkProp
 
       <AnimatePresence>
         {isOpen && (
-          // Z-INDEX FIX: z-[9999] ensures this modal is ALWAYS on top of the Navbar (z-[100])
           <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
             <motion.div
               initial={{ opacity: 0 }}
@@ -331,7 +329,19 @@ export const AddLink = ({ onAdd, isAdmin, linkToEdit, onCloseEdit }: AddLinkProp
                                                 </div>
                                             </div>
                                         ) : (
-                                            <img src={img} alt={`Preview ${idx}`} className="w-full h-full object-cover" />
+                                            <img 
+                                              src={img} 
+                                              alt={`Preview ${idx}`} 
+                                              className="w-full h-full object-cover" 
+                                              onError={(e) => {
+                                                e.currentTarget.style.display = 'none';
+                                                e.currentTarget.parentElement?.classList.add('bg-red-50');
+                                                // Show fallback icon
+                                                const icon = document.createElement('div');
+                                                icon.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-300"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+                                                e.currentTarget.parentElement?.appendChild(icon);
+                                              }}
+                                            />
                                         )}
                                         
                                         <button 
