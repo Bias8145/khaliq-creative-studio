@@ -8,6 +8,7 @@ import { AdminLogin } from './components/AdminLogin';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { CommissionSection } from './components/CommissionSection';
+import { ConfirmModal } from './components/ConfirmModal';
 import { supabase, type Link } from './lib/supabase';
 import { Loader2, LayoutGrid, ArrowRight, BookOpen, FileUser } from 'lucide-react';
 import { translations, type Language } from './lib/translations';
@@ -21,6 +22,10 @@ function App() {
   // Admin State
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  
+  // Edit & Delete State
+  const [editingLink, setEditingLink] = useState<Link | null>(null);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
   const t = translations[lang];
 
@@ -41,18 +46,19 @@ function App() {
     }
   };
 
-  const deleteLink = async (id: string) => {
-    if (!isAdmin) return;
-    if (!confirm('Are you sure you want to delete this project?')) return;
+  const confirmDelete = async () => {
+    if (!deleteId) return;
 
     try {
-      const { error } = await supabase.from('links').delete().eq('id', id);
+      const { error } = await supabase.from('links').delete().eq('id', deleteId);
       if (error) throw error;
-      setLinks(links.filter(l => l.id !== id));
+      setLinks(links.filter(l => l.id !== deleteId));
       toast.success('Project removed successfully');
     } catch (error) {
       console.error('Error deleting link:', error);
       toast.error('Failed to delete project');
+    } finally {
+      setDeleteId(null);
     }
   };
 
@@ -86,6 +92,17 @@ function App() {
         lang={lang}
       />
 
+      {/* Confirmation Modal */}
+      <ConfirmModal 
+        isOpen={!!deleteId}
+        title="Delete Project"
+        message="Are you sure you want to delete this project? This action cannot be undone."
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleteId(null)}
+        confirmText="Delete"
+        isDestructive
+      />
+
       <main className="flex-grow container mx-auto px-4 md:px-6 pt-24 md:pt-32 pb-20 relative z-10">
         {/* Simplified Hero Section */}
         <header id="home" className="mb-12 md:mb-24 mt-6 md:mt-10 relative">
@@ -98,11 +115,8 @@ function App() {
             <span className="inline-block px-3 py-1 md:px-4 md:py-1.5 mb-6 md:mb-8 text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase bg-gray-900 text-white rounded-full">
               {t.hero.badge}
             </span>
-            <h1 className="text-6xl md:text-[9rem] font-bold tracking-tighter text-gray-900 mb-4 md:mb-6 leading-[0.9]">
-              {t.hero.title}
-            </h1>
             
-            <h2 className="text-xl md:text-4xl font-light text-gray-800 mb-4 md:mb-6 tracking-tight">
+            <h2 className="text-3xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight leading-tight">
               {t.hero.subtitle}
             </h2>
             
@@ -127,7 +141,7 @@ function App() {
           </motion.div>
         </header>
 
-        {/* FEATURED STATIC SECTION (Compact Horizontal on Mobile) */}
+        {/* FEATURED STATIC SECTION */}
         <section className="mb-20 md:mb-32 max-w-4xl mx-auto">
           <div className="grid grid-cols-2 gap-3 md:gap-6">
             {/* Card 1: Khaliq Repos */}
@@ -138,29 +152,27 @@ function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="group relative bg-gray-900 rounded-[1.5rem] p-5 md:p-8 overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 flex flex-col justify-between h-[180px] md:h-[220px]"
+              className="group relative bg-gray-900 rounded-[1.5rem] p-4 md:p-8 overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 flex flex-col justify-between h-[160px] md:h-[220px]"
             >
               <div className="relative z-10">
                 <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/10 backdrop-blur-md text-white/90 text-[8px] md:text-[10px] font-bold tracking-wider uppercase mb-2 border border-white/10">
                   {t.featured.repo_badge}
                 </div>
-                <h3 className="text-sm md:text-2xl font-bold text-white leading-tight mb-2">
+                <h3 className="text-sm md:text-2xl font-bold text-white leading-tight mb-1 md:mb-2">
                   {t.featured.repo_title}
                 </h3>
-                {/* Added Description - Compact Font */}
-                <p className="text-[9px] md:text-sm text-gray-400 font-light leading-tight max-w-[90%] md:max-w-[85%] line-clamp-3">
+                <p className="text-[8px] md:text-sm text-gray-400 font-light leading-tight max-w-[85%] line-clamp-3">
                   {t.featured.repo_desc}
                 </p>
               </div>
               
-              <div className="relative z-10 flex items-center gap-1.5 text-white text-[10px] md:text-xs font-bold uppercase tracking-wider group-hover:translate-x-1 transition-transform mt-auto">
+              <div className="relative z-10 flex items-center gap-1.5 text-white text-[9px] md:text-xs font-bold uppercase tracking-wider group-hover:translate-x-1 transition-transform mt-auto">
                 <span>{t.featured.repo_cta}</span>
-                <ArrowRight size={12} className="md:w-4 md:h-4" />
+                <ArrowRight size={10} className="md:w-4 md:h-4" />
               </div>
               
-              {/* Decorative Icon - ADJUSTED POSITION (Moved UP and LEFT) & SIZE INCREASED */}
-              <div className="absolute right-[-10px] bottom-[-10px] md:right-[-20px] md:bottom-[-20px] opacity-10 group-hover:opacity-20 transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-6 pointer-events-none">
-                 <BookOpen size={80} className="text-white md:w-40 md:h-40" />
+              <div className="absolute right-2 bottom-6 md:right-[-20px] md:bottom-[-20px] opacity-10 group-hover:opacity-20 transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-6 pointer-events-none">
+                 <BookOpen size={64} className="text-white md:w-40 md:h-40" />
               </div>
             </motion.a>
 
@@ -172,29 +184,27 @@ function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="group relative bg-white border border-gray-100 rounded-[1.5rem] p-5 md:p-8 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 flex flex-col justify-between h-[180px] md:h-[220px]"
+              className="group relative bg-white border border-gray-100 rounded-[1.5rem] p-4 md:p-8 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 flex flex-col justify-between h-[160px] md:h-[220px]"
             >
               <div className="relative z-10">
                 <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 text-[8px] md:text-[10px] font-bold tracking-wider uppercase mb-2">
                   {t.featured.resume_badge}
                 </div>
-                <h3 className="text-sm md:text-2xl font-bold text-gray-900 leading-tight mb-2">
+                <h3 className="text-sm md:text-2xl font-bold text-gray-900 leading-tight mb-1 md:mb-2">
                   {t.featured.resume_title}
                 </h3>
-                {/* Added Description - Compact Font */}
-                <p className="text-[9px] md:text-sm text-gray-500 font-light leading-tight max-w-[90%] md:max-w-[85%] line-clamp-3">
+                <p className="text-[8px] md:text-sm text-gray-500 font-light leading-tight max-w-[85%] line-clamp-3">
                   {t.featured.resume_desc}
                 </p>
               </div>
 
-              <div className="relative z-10 flex items-center gap-1.5 text-gray-900 text-[10px] md:text-xs font-bold uppercase tracking-wider group-hover:translate-x-1 transition-transform mt-auto">
+              <div className="relative z-10 flex items-center gap-1.5 text-gray-900 text-[9px] md:text-xs font-bold uppercase tracking-wider group-hover:translate-x-1 transition-transform mt-auto">
                 <span>{t.featured.resume_cta}</span>
-                <ArrowRight size={12} className="md:w-4 md:h-4" />
+                <ArrowRight size={10} className="md:w-4 md:h-4" />
               </div>
 
-              {/* Decorative Icon - ADJUSTED POSITION (Moved UP and LEFT) & SIZE INCREASED */}
-              <div className="absolute right-[-10px] bottom-[-10px] md:right-[-20px] md:bottom-[-20px] opacity-[0.05] group-hover:opacity-[0.1] transition-all duration-500 transform group-hover:scale-110 pointer-events-none">
-                 <FileUser size={80} className="text-gray-900 md:w-40 md:h-40" />
+              <div className="absolute right-2 bottom-6 md:right-[-20px] md:bottom-[-20px] opacity-[0.05] group-hover:opacity-[0.1] transition-all duration-500 transform group-hover:scale-110 pointer-events-none">
+                 <FileUser size={64} className="text-gray-900 md:w-40 md:h-40" />
               </div>
             </motion.a>
           </div>
@@ -236,7 +246,8 @@ function App() {
                 <LinkCard 
                   key={link.id} 
                   link={link} 
-                  onDelete={deleteLink} 
+                  onDelete={(id) => setDeleteId(id)} 
+                  onEdit={(link) => setEditingLink(link)}
                   isAdmin={isAdmin}
                   viewText={link.category === 'Resume' ? t.catalog.view_resume : t.catalog.view_project}
                 />
@@ -265,7 +276,12 @@ function App() {
         }}
       />
 
-      <AddLink onAdd={fetchLinks} isAdmin={isAdmin} />
+      <AddLink 
+        onAdd={fetchLinks} 
+        isAdmin={isAdmin} 
+        linkToEdit={editingLink}
+        onCloseEdit={() => setEditingLink(null)}
+      />
     </div>
   );
 }

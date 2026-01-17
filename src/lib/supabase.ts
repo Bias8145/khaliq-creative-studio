@@ -12,9 +12,9 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 export type Link = {
   id: string;
   created_at: string;
-  url: string;
+  url: string | null; // Now nullable
   title: string | null;
   description: string | null;
-  image_url: string | null;
+  image_url: string | null; // Can store a single URL or a JSON string of URLs
   category: string;
 };

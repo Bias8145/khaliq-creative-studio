@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Menu, Home, Grid2X2, Palette, ArrowRight } from 'lucide-react';
+import { X, Menu, Home, Grid2X2, Briefcase } from 'lucide-react';
 import { translations, Language } from '../lib/translations';
 
 interface NavbarProps {
@@ -33,21 +33,21 @@ export const Navbar = ({ lang, setLang, scrollToSection }: NavbarProps) => {
     { 
       id: 'home', 
       label: t.home, 
-      icon: <Home size={24} strokeWidth={1.5} />, 
+      icon: <Home size={20} strokeWidth={1.5} />, 
       color: 'text-vivid-blue',
       bg: 'bg-vivid-blue/10'
     },
     { 
       id: 'catalog', 
       label: t.catalog, 
-      icon: <Grid2X2 size={24} strokeWidth={1.5} />, 
+      icon: <Grid2X2 size={20} strokeWidth={1.5} />, 
       color: 'text-vivid-pink',
       bg: 'bg-vivid-pink/10'
     },
     { 
       id: 'services', 
       label: t.services, 
-      icon: <Palette size={24} strokeWidth={1.5} />, 
+      icon: <Briefcase size={20} strokeWidth={1.5} />, 
       color: 'text-vivid-purple',
       bg: 'bg-vivid-purple/10'
     },
@@ -63,7 +63,7 @@ export const Navbar = ({ lang, setLang, scrollToSection }: NavbarProps) => {
           isScrolled && !isMobileOpen
             ? 'bg-white/90 backdrop-blur-xl border-b border-white/20 shadow-sm py-3' 
             : isMobileOpen 
-                ? 'bg-transparent py-4' // Transparent when open so menu bg shows
+                ? 'bg-transparent py-2' 
                 : 'bg-transparent py-6'
         }`}
       >
@@ -85,7 +85,6 @@ export const Navbar = ({ lang, setLang, scrollToSection }: NavbarProps) => {
                   onClick={() => scrollToSection(link.id)}
                   className="px-6 py-2 rounded-full text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-white transition-all duration-300 flex items-center gap-2"
                 >
-                  {/* Icon only visible on hover or active could be cool, but let's keep it clean text for desktop as per previous design, or add small icons? Keeping text for elegance on desktop, icons are for mobile expressiveness */}
                   {link.label}
                 </button>
               ))}
@@ -108,11 +107,11 @@ export const Navbar = ({ lang, setLang, scrollToSection }: NavbarProps) => {
             </div>
           </div>
 
-          {/* Hamburger Button - High Z-Index & Distinct Styling */}
+          {/* Hamburger Button */}
           <button 
             className={`md:hidden relative w-10 h-10 flex items-center justify-center rounded-full z-[100] transition-all duration-300 shadow-sm ${
               isMobileOpen 
-                ? 'bg-gray-900 text-white shadow-lg scale-110' // Distinct active state
+                ? 'bg-gray-900 text-white shadow-lg scale-105' 
                 : 'bg-white/80 backdrop-blur-md border border-white/60 text-gray-900'
             }`}
             onClick={() => setIsMobileOpen(!isMobileOpen)}
@@ -134,86 +133,74 @@ export const Navbar = ({ lang, setLang, scrollToSection }: NavbarProps) => {
         </div>
       </motion.nav>
 
-      {/* Mobile Menu Overlay - Z-Index 90 (Below Navbar) */}
+      {/* Mobile Menu & Backdrop */}
       <AnimatePresence>
         {isMobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, clipPath: "circle(0% at 100% 0)" }}
-            animate={{ opacity: 1, clipPath: "circle(150% at 100% 0)" }}
-            exit={{ opacity: 0, clipPath: "circle(0% at 100% 0)" }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-[90] bg-white/95 backdrop-blur-2xl flex flex-col pt-24 pb-8 px-6 overflow-hidden"
-          >
-            {/* Expressive Background Decoration */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
-                 <div className="absolute top-[-10%] right-[-10%] w-[80vw] h-[80vw] bg-vivid-blue/20 rounded-full blur-[80px] animate-pulse-slow" />
-                 <div className="absolute bottom-[10%] left-[-10%] w-[80vw] h-[80vw] bg-vivid-pink/20 rounded-full blur-[80px] animate-pulse-slow" />
-            </div>
+          <>
+            {/* Elegant Blur Backdrop */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                onClick={() => setIsMobileOpen(false)}
+                className="fixed inset-0 z-[80] bg-black/20 backdrop-blur-sm"
+            />
 
-            <div className="relative z-10 flex flex-col h-full max-w-sm mx-auto w-full">
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
+            {/* Menu Panel */}
+            <motion.div
+                initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-                className="flex items-center gap-2 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-6 ml-1"
-              >
-                {t.menu_title}
-              </motion.div>
-
-              {/* Expressive List - Icons & Labels */}
-              <div className="flex flex-col gap-3">
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="fixed inset-x-0 top-0 z-[90] bg-white/95 backdrop-blur-2xl rounded-b-[2rem] shadow-2xl overflow-hidden"
+            >
+                <div className="pt-20 pb-6 px-6 flex flex-col gap-3">
+                {/* Compact List */}
                 {navLinks.map((link, idx) => (
-                  <motion.button
+                    <motion.button
                     key={link.id}
-                    initial={{ opacity: 0, x: -30 }}
+                    initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.15 + idx * 0.1, type: "spring", stiffness: 100 }}
+                    transition={{ delay: 0.1 + idx * 0.05 }}
                     onClick={() => {
-                      scrollToSection(link.id);
-                      setIsMobileOpen(false);
+                        scrollToSection(link.id);
+                        setIsMobileOpen(false);
                     }}
-                    className="group relative w-full flex items-center justify-between p-4 rounded-2xl bg-white border border-gray-100 shadow-sm overflow-hidden hover:shadow-md hover:border-gray-200 transition-all duration-300"
-                  >
-                    {/* Hover Gradient Background */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-gray-50 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    
-                    <div className="flex items-center gap-4 relative z-10">
-                      {/* Aesthetic Icon Container */}
-                      <div className={`p-3 rounded-xl transition-all duration-300 ${link.bg} ${link.color} group-hover:scale-110`}>
+                    className="w-full flex items-center gap-4 p-3 rounded-xl bg-gray-50/50 hover:bg-gray-100 transition-all active:scale-95"
+                    >
+                    <div className={`p-2 rounded-lg ${link.bg} ${link.color}`}>
                         {link.icon}
-                      </div>
-                      <span className="text-lg font-bold text-gray-900 tracking-tight">
-                        {link.label}
-                      </span>
                     </div>
-                    
-                    <ArrowRight size={18} strokeWidth={1.5} className="text-gray-300 group-hover:text-gray-900 group-hover:translate-x-1 transition-all duration-300 relative z-10" />
-                  </motion.button>
+                    <span className="text-sm font-bold text-gray-800 tracking-wide">
+                        {link.label}
+                    </span>
+                    </motion.button>
                 ))}
-              </div>
 
-              {/* Mobile Language Toggle - Compact */}
-              <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  className="relative z-10 w-full flex gap-3 mt-auto"
-              >
-                  <button
-                      onClick={() => { setLang('id'); setIsMobileOpen(false); }}
-                      className={`flex-1 py-4 rounded-2xl text-xs font-bold uppercase tracking-widest border transition-all ${lang === 'id' ? 'bg-gray-900 text-white border-gray-900 shadow-xl' : 'bg-white border-gray-200 text-gray-500 shadow-sm'}`}
-                  >
-                      Bahasa Indonesia
-                  </button>
-                  <button
-                      onClick={() => { setLang('en'); setIsMobileOpen(false); }}
-                      className={`flex-1 py-4 rounded-2xl text-xs font-bold uppercase tracking-widest border transition-all ${lang === 'en' ? 'bg-gray-900 text-white border-gray-900 shadow-xl' : 'bg-white border-gray-200 text-gray-500 shadow-sm'}`}
-                  >
-                      English
-                  </button>
-              </motion.div>
-            </div>
-          </motion.div>
+                {/* Compact Language Toggle */}
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="flex gap-2 mt-2 pt-3 border-t border-gray-100"
+                >
+                    <button
+                        onClick={() => { setLang('id'); setIsMobileOpen(false); }}
+                        className={`flex-1 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest border transition-all ${lang === 'id' ? 'bg-gray-900 text-white border-gray-900' : 'bg-white border-gray-200 text-gray-500'}`}
+                    >
+                        Indonesia
+                    </button>
+                    <button
+                        onClick={() => { setLang('en'); setIsMobileOpen(false); }}
+                        className={`flex-1 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest border transition-all ${lang === 'en' ? 'bg-gray-900 text-white border-gray-900' : 'bg-white border-gray-200 text-gray-500'}`}
+                    >
+                        English
+                    </button>
+                </motion.div>
+                </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>
