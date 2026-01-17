@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Menu, Home, Layers, Sparkles } from 'lucide-react';
+import { X, Menu, Home, Grid2X2, Palette, ArrowRight } from 'lucide-react';
 import { translations, Language } from '../lib/translations';
 
 interface NavbarProps {
@@ -30,9 +30,27 @@ export const Navbar = ({ lang, setLang, scrollToSection }: NavbarProps) => {
   }, [isMobileOpen]);
 
   const navLinks = [
-    { id: 'home', label: t.home, num: '01', icon: <Home size={18} /> },
-    { id: 'catalog', label: t.catalog, num: '02', icon: <Layers size={18} /> },
-    { id: 'services', label: t.services, num: '03', icon: <Sparkles size={18} /> },
+    { 
+      id: 'home', 
+      label: t.home, 
+      icon: <Home size={24} strokeWidth={1.5} />, 
+      color: 'text-vivid-blue',
+      bg: 'bg-vivid-blue/10'
+    },
+    { 
+      id: 'catalog', 
+      label: t.catalog, 
+      icon: <Grid2X2 size={24} strokeWidth={1.5} />, 
+      color: 'text-vivid-pink',
+      bg: 'bg-vivid-pink/10'
+    },
+    { 
+      id: 'services', 
+      label: t.services, 
+      icon: <Palette size={24} strokeWidth={1.5} />, 
+      color: 'text-vivid-purple',
+      bg: 'bg-vivid-purple/10'
+    },
   ];
 
   return (
@@ -65,8 +83,9 @@ export const Navbar = ({ lang, setLang, scrollToSection }: NavbarProps) => {
                 <button
                   key={link.id}
                   onClick={() => scrollToSection(link.id)}
-                  className="px-6 py-2 rounded-full text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-white transition-all duration-300"
+                  className="px-6 py-2 rounded-full text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-white transition-all duration-300 flex items-center gap-2"
                 >
+                  {/* Icon only visible on hover or active could be cool, but let's keep it clean text for desktop as per previous design, or add small icons? Keeping text for elegance on desktop, icons are for mobile expressiveness */}
                   {link.label}
                 </button>
               ))}
@@ -102,10 +121,12 @@ export const Navbar = ({ lang, setLang, scrollToSection }: NavbarProps) => {
             <div className="relative w-5 h-5 flex items-center justify-center">
                 <X 
                   size={20} 
+                  strokeWidth={2}
                   className={`absolute transition-all duration-300 ${isMobileOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-50'}`} 
                 />
                 <Menu 
                   size={20} 
+                  strokeWidth={2}
                   className={`absolute transition-all duration-300 ${isMobileOpen ? 'opacity-0 rotate-90 scale-50' : 'opacity-100 rotate-0 scale-100'}`} 
                 />
             </div>
@@ -120,13 +141,13 @@ export const Navbar = ({ lang, setLang, scrollToSection }: NavbarProps) => {
             initial={{ opacity: 0, clipPath: "circle(0% at 100% 0)" }}
             animate={{ opacity: 1, clipPath: "circle(150% at 100% 0)" }}
             exit={{ opacity: 0, clipPath: "circle(0% at 100% 0)" }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-[90] bg-white/95 backdrop-blur-xl flex flex-col pt-24 pb-8 px-6 overflow-hidden"
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-[90] bg-white/95 backdrop-blur-2xl flex flex-col pt-24 pb-8 px-6 overflow-hidden"
           >
             {/* Expressive Background Decoration */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
-                 <div className="absolute top-[-10%] right-[-10%] w-[60vw] h-[60vw] bg-vivid-blue/20 rounded-full blur-[60px]" />
-                 <div className="absolute bottom-[10%] left-[-10%] w-[60vw] h-[60vw] bg-vivid-pink/20 rounded-full blur-[60px]" />
+            <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
+                 <div className="absolute top-[-10%] right-[-10%] w-[80vw] h-[80vw] bg-vivid-blue/20 rounded-full blur-[80px] animate-pulse-slow" />
+                 <div className="absolute bottom-[10%] left-[-10%] w-[80vw] h-[80vw] bg-vivid-pink/20 rounded-full blur-[80px] animate-pulse-slow" />
             </div>
 
             <div className="relative z-10 flex flex-col h-full max-w-sm mx-auto w-full">
@@ -134,58 +155,59 @@ export const Navbar = ({ lang, setLang, scrollToSection }: NavbarProps) => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="flex items-center gap-2 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-4 ml-1"
+                className="flex items-center gap-2 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-6 ml-1"
               >
                 {t.menu_title}
               </motion.div>
 
-              {/* Compact List */}
-              <div className="flex flex-col gap-2">
+              {/* Expressive List - Icons & Labels */}
+              <div className="flex flex-col gap-3">
                 {navLinks.map((link, idx) => (
                   <motion.button
                     key={link.id}
-                    initial={{ opacity: 0, x: -20 }}
+                    initial={{ opacity: 0, x: -30 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 + idx * 0.05 }}
+                    transition={{ delay: 0.15 + idx * 0.1, type: "spring", stiffness: 100 }}
                     onClick={() => {
                       scrollToSection(link.id);
                       setIsMobileOpen(false);
                     }}
-                    className="group relative w-full flex items-center justify-between p-4 rounded-2xl bg-gray-50/80 border border-gray-100 overflow-hidden hover:bg-gray-900 transition-all duration-300"
+                    className="group relative w-full flex items-center justify-between p-4 rounded-2xl bg-white border border-gray-100 shadow-sm overflow-hidden hover:shadow-md hover:border-gray-200 transition-all duration-300"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                    {/* Hover Gradient Background */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-gray-50 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     
                     <div className="flex items-center gap-4 relative z-10">
-                      <span className="text-[10px] font-mono font-bold text-gray-400 group-hover:text-gray-500 transition-colors">{link.num}</span>
-                      <span className={`text-lg font-bold text-gray-900 group-hover:text-white transition-colors duration-300`}>
+                      {/* Aesthetic Icon Container */}
+                      <div className={`p-3 rounded-xl transition-all duration-300 ${link.bg} ${link.color} group-hover:scale-110`}>
+                        {link.icon}
+                      </div>
+                      <span className="text-lg font-bold text-gray-900 tracking-tight">
                         {link.label}
                       </span>
                     </div>
                     
-                    {/* Replaced Arrow with Relevant Icon */}
-                    <div className="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center group-hover:bg-white/20 group-hover:border-transparent transition-all duration-300 text-gray-900 group-hover:text-white">
-                      {link.icon}
-                    </div>
+                    <ArrowRight size={18} strokeWidth={1.5} className="text-gray-300 group-hover:text-gray-900 group-hover:translate-x-1 transition-all duration-300 relative z-10" />
                   </motion.button>
                 ))}
               </div>
 
               {/* Mobile Language Toggle - Compact */}
               <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  className="relative z-10 w-full flex gap-2 mt-auto"
+                  transition={{ delay: 0.4 }}
+                  className="relative z-10 w-full flex gap-3 mt-auto"
               >
                   <button
                       onClick={() => { setLang('id'); setIsMobileOpen(false); }}
-                      className={`flex-1 py-3 rounded-xl text-xs font-bold uppercase tracking-widest border transition-all ${lang === 'id' ? 'bg-gray-900 text-white border-gray-900 shadow-lg' : 'bg-white border-gray-200 text-gray-500'}`}
+                      className={`flex-1 py-4 rounded-2xl text-xs font-bold uppercase tracking-widest border transition-all ${lang === 'id' ? 'bg-gray-900 text-white border-gray-900 shadow-xl' : 'bg-white border-gray-200 text-gray-500 shadow-sm'}`}
                   >
-                      Bahasa
+                      Bahasa Indonesia
                   </button>
                   <button
                       onClick={() => { setLang('en'); setIsMobileOpen(false); }}
-                      className={`flex-1 py-3 rounded-xl text-xs font-bold uppercase tracking-widest border transition-all ${lang === 'en' ? 'bg-gray-900 text-white border-gray-900 shadow-lg' : 'bg-white border-gray-200 text-gray-500'}`}
+                      className={`flex-1 py-4 rounded-2xl text-xs font-bold uppercase tracking-widest border transition-all ${lang === 'en' ? 'bg-gray-900 text-white border-gray-900 shadow-xl' : 'bg-white border-gray-200 text-gray-500 shadow-sm'}`}
                   >
                       English
                   </button>

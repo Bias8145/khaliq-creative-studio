@@ -138,17 +138,17 @@ function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="group relative bg-gray-900 rounded-[1.5rem] p-5 md:p-8 overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 flex flex-col justify-between h-[160px] md:h-[200px]"
+              className="group relative bg-gray-900 rounded-[1.5rem] p-5 md:p-8 overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 flex flex-col justify-between h-[180px] md:h-[220px]"
             >
               <div className="relative z-10">
                 <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/10 backdrop-blur-md text-white/90 text-[8px] md:text-[10px] font-bold tracking-wider uppercase mb-2 border border-white/10">
                   {t.featured.repo_badge}
                 </div>
-                <h3 className="text-sm md:text-2xl font-bold text-white leading-tight mb-1">
+                <h3 className="text-sm md:text-2xl font-bold text-white leading-tight mb-2">
                   {t.featured.repo_title}
                 </h3>
-                {/* Added Description */}
-                <p className="text-[8px] md:text-sm text-gray-400 font-light leading-tight max-w-[85%]">
+                {/* Added Description - Compact Font */}
+                <p className="text-[9px] md:text-sm text-gray-400 font-light leading-tight max-w-[90%] md:max-w-[85%] line-clamp-3">
                   {t.featured.repo_desc}
                 </p>
               </div>
@@ -158,9 +158,9 @@ function App() {
                 <ArrowRight size={12} className="md:w-4 md:h-4" />
               </div>
               
-              {/* Decorative Icon - ADJUSTED POSITION (Moved UP and LEFT) */}
-              <div className="absolute right-4 bottom-8 md:right-[-20px] md:bottom-[-20px] opacity-10 group-hover:opacity-20 transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-6">
-                 <BookOpen size={50} className="text-white md:w-32 md:h-32" />
+              {/* Decorative Icon - ADJUSTED POSITION (Moved UP and LEFT) & SIZE INCREASED */}
+              <div className="absolute right-[-10px] bottom-[-10px] md:right-[-20px] md:bottom-[-20px] opacity-10 group-hover:opacity-20 transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-6 pointer-events-none">
+                 <BookOpen size={80} className="text-white md:w-40 md:h-40" />
               </div>
             </motion.a>
 
@@ -172,17 +172,17 @@ function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="group relative bg-white border border-gray-100 rounded-[1.5rem] p-5 md:p-8 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 flex flex-col justify-between h-[160px] md:h-[200px]"
+              className="group relative bg-white border border-gray-100 rounded-[1.5rem] p-5 md:p-8 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 flex flex-col justify-between h-[180px] md:h-[220px]"
             >
               <div className="relative z-10">
                 <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 text-[8px] md:text-[10px] font-bold tracking-wider uppercase mb-2">
                   {t.featured.resume_badge}
                 </div>
-                <h3 className="text-sm md:text-2xl font-bold text-gray-900 leading-tight mb-1">
+                <h3 className="text-sm md:text-2xl font-bold text-gray-900 leading-tight mb-2">
                   {t.featured.resume_title}
                 </h3>
-                {/* Added Description */}
-                <p className="text-[8px] md:text-sm text-gray-500 font-light leading-tight max-w-[85%]">
+                {/* Added Description - Compact Font */}
+                <p className="text-[9px] md:text-sm text-gray-500 font-light leading-tight max-w-[90%] md:max-w-[85%] line-clamp-3">
                   {t.featured.resume_desc}
                 </p>
               </div>
@@ -192,9 +192,9 @@ function App() {
                 <ArrowRight size={12} className="md:w-4 md:h-4" />
               </div>
 
-              {/* Decorative Icon - ADJUSTED POSITION (Moved UP and LEFT) */}
-              <div className="absolute right-4 bottom-8 md:right-[-20px] md:bottom-[-20px] opacity-[0.05] group-hover:opacity-[0.1] transition-all duration-500 transform group-hover:scale-110">
-                 <FileUser size={50} className="text-gray-900 md:w-32 md:h-32" />
+              {/* Decorative Icon - ADJUSTED POSITION (Moved UP and LEFT) & SIZE INCREASED */}
+              <div className="absolute right-[-10px] bottom-[-10px] md:right-[-20px] md:bottom-[-20px] opacity-[0.05] group-hover:opacity-[0.1] transition-all duration-500 transform group-hover:scale-110 pointer-events-none">
+                 <FileUser size={80} className="text-gray-900 md:w-40 md:h-40" />
               </div>
             </motion.a>
           </div>

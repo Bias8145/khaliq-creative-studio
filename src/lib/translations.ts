@@ -13,7 +13,7 @@ export const translations = {
       badge: 'Creative Studio',
       title: 'Khaliq.',
       subtitle: 'Digital Catalog & Design Services',
-      description: 'A comprehensive digital platform curating architectural archives, pointillism artistry, and professional web design solutions.',
+      description: 'A comprehensive digital platform showcasing academic archives, pointillism artistry, and professional web design solutions.',
       cta_catalog: 'Explore Catalog',
       cta_services: 'Start Project',
     },
@@ -21,16 +21,16 @@ export const translations = {
       label: 'Quick Access',
       repo_badge: 'Archive',
       repo_title: 'Repository',
-      repo_desc: 'Academic & Theological Writings.',
-      repo_cta: 'Access',
+      repo_desc: 'Comprehensive collection of academic research, theological essays, and scholarly writings.',
+      repo_cta: 'Access Archive',
       resume_badge: 'Profile',
       resume_title: 'Curriculum Vitae',
-      resume_desc: 'Professional Track Record.',
-      resume_cta: 'View',
+      resume_desc: 'Detailed professional track record, work experience, and technical skill set.',
+      resume_cta: 'View Profile',
     },
     catalog: {
       title: 'Project Catalog',
-      empty: 'Catalog is currently being curated.',
+      empty: 'Catalog is currently being updated.',
       empty_admin: 'Use the + button to populate the gallery.',
       view_project: 'View Project',
       view_resume: 'View Document',
@@ -52,7 +52,7 @@ export const translations = {
         },
         sketch: {
           title: 'Pointillism Sketch',
-          desc: 'Unique hand-drawn or digital sketches using the pointillism technique. Perfect for gifts, artistic displays, or architectural visualizations.'
+          desc: 'Unique hand-drawn or digital sketches using the pointillism technique. Perfect for gifts, artistic displays, or visualizations.'
         }
       }
     },
@@ -77,7 +77,7 @@ export const translations = {
       badge: 'Creative Studio',
       title: 'Khaliq.',
       subtitle: 'Katalog Digital & Jasa Desain',
-      description: 'Platform kurasi digital yang menampilkan arsip arsitektur, karya seni pointilisme, dan solusi web desain profesional.',
+      description: 'Platform digital lengkap yang menampilkan arsip akademik, karya seni pointilisme, dan solusi desain web profesional.',
       cta_catalog: 'Jelajahi Katalog',
       cta_services: 'Mulai Proyek',
     },
@@ -85,16 +85,16 @@ export const translations = {
       label: 'Akses Cepat',
       repo_badge: 'Arsip',
       repo_title: 'Repositori',
-      repo_desc: 'Tulisan Akademik & Teologis.',
-      repo_cta: 'Akses',
+      repo_desc: 'Koleksi lengkap riset akademik, esai teologis, dan tulisan ilmiah terpilih.',
+      repo_cta: 'Akses Arsip',
       resume_badge: 'Profil',
       resume_title: 'Curriculum Vitae',
-      resume_desc: 'Rekam Jejak Profesional.',
-      resume_cta: 'Lihat',
+      resume_desc: 'Rekam jejak profesional, pengalaman kerja, dan keahlian teknis mendetail.',
+      resume_cta: 'Lihat Profil',
     },
     catalog: {
       title: 'Katalog Proyek',
-      empty: 'Katalog sedang dalam proses kurasi.',
+      empty: 'Katalog sedang dilengkapi.',
       empty_admin: 'Gunakan tombol + untuk mengisi galeri.',
       view_project: 'Lihat Proyek',
       view_resume: 'Lihat Dokumen',
@@ -116,7 +116,7 @@ export const translations = {
         },
         sketch: {
           title: 'Sketsa Pointilisme',
-          desc: 'Sketsa unik (manual/digital) menggunakan teknik pointilisme (titik-titik). Sangat cocok untuk hadiah, pajangan artistik, atau visualisasi arsitektur.'
+          desc: 'Sketsa unik (manual/digital) menggunakan teknik pointilisme (titik-titik). Sangat cocok untuk hadiah, pajangan artistik, atau visualisasi.'
         }
       }
     },

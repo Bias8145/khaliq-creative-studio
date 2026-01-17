@@ -146,7 +146,7 @@ export const AddLink = ({ onAdd, isAdmin }: AddLinkProps) => {
             >
               <div className="flex justify-between items-center mb-8">
                 <div>
-                  <h2 className="text-3xl font-bold text-gray-900">Curate Gallery</h2>
+                  <h2 className="text-3xl font-bold text-gray-900">Update Gallery</h2>
                   <p className="text-gray-500 text-sm mt-1">Add a new piece to your collection.</p>
                 </div>
                 <button onClick={() => setIsOpen(false)} className="p-3 bg-gray-50 hover:bg-gray-100 rounded-full transition-colors">
