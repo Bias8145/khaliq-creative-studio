@@ -1,44 +1,58 @@
 # Khaliq Creative Studio
 
-**Khaliq Creative Studio** is a professional digital catalog and design service platform built for **Bias Fajar Khaliq**. It serves as a comprehensive archive for academic works, a gallery for pointillism artistry, and a portal for premium web design commissions.
+**Khaliq Creative Studio** is a comprehensive digital platform designed to serve as a professional portfolio, academic archive, and commercial service interface for Bias Fajar Khaliq. The application functions as a centralized digital catalog, bridging the gap between architectural pointillism artistry, academic research, and premium web design services.
 
-## ✨ Features
+## Project Overview
 
--   **Bilingual System (ID/EN)**: Seamless language toggling for international accessibility.
--   **Dynamic Catalog**: Manage projects via a secure Admin Dashboard.
--   **Multi-Format Gallery**: Support for uploading multiple Images, PDFs, and Videos per project.
--   **Expressive UI**: "Living" background animations, glassmorphism, and smooth Framer Motion transitions.
--   **SEO Optimized**: Fully configured for Google Search indexing with specific keyword targeting.
--   **Service Commission**: Dedicated section for Web Design and Sketch services with direct WhatsApp/Email integration.
+This application is built as a single-page application (SPA) using modern web technologies to ensure high performance, responsiveness, and search engine visibility. It features a custom content management system (CMS) allowing for real-time updates to the project gallery without requiring code deployments.
 
-## 🛠️ Tech Stack
+## System Capabilities
 
--   **Frontend**: React 19, TypeScript, Tailwind CSS
--   **Animations**: Framer Motion
--   **Backend/Storage**: Supabase (PostgreSQL & Storage Buckets)
--   **Icons**: Lucide React
--   **Deployment**: Cloudflare Pages / Vite
+### Core Functionality
+-   **Bilingual Interface**: Integrated internationalization system supporting English (EN) and Indonesian (ID) with instant state-preserving toggling.
+-   **Dynamic Content Management**: Secure admin dashboard for adding, editing, and removing project entries.
+-   **Multi-Format Media Support**: Advanced file handling capable of processing and displaying multiple image formats (JPG, PNG), PDF documents, and video files (MP4, WebM) within a unified gallery interface.
+-   **Service Integration**: Dedicated commercial section for Web Design and Sketch commissions with direct API integrations for WhatsApp and Email communication.
 
-## 🚀 Deployment Guide (Cloudflare Pages)
+### Technical Features
+-   **Search Engine Optimization (SEO)**: Fully configured meta-tags, Open Graph protocols, and structured data targeting specific keywords (e.g., "Bias Fajar Khaliq", "Web Design Services").
+-   **Performance**: Optimized assets and code-splitting via Vite, deployed on Cloudflare's edge network for low-latency global access.
+-   **User Experience**: Implements glassmorphism design principles, fluid transitions using Framer Motion, and responsive layouts for mobile and desktop devices.
 
-1.  **Push to Git**: Ensure this repository is pushed to your GitHub account.
-2.  **Cloudflare Dashboard**:
-    -   Go to **Workers & Pages** > **Create Application** > **Pages** > **Connect to Git**.
-    -   Select this repository.
-3.  **Build Settings**:
-    -   **Framework Preset**: Vite
+## Technical Architecture
+
+The project utilizes a robust stack focused on type safety and performance:
+
+-   **Frontend Framework**: React 19
+-   **Language**: TypeScript
+-   **Styling**: Tailwind CSS
+-   **State & Animation**: Framer Motion
+-   **Backend Services**: Supabase (PostgreSQL Database & Object Storage)
+-   **Build Tool**: Vite
+-   **Deployment**: Cloudflare Pages
+
+## Deployment Instructions
+
+This project is configured for deployment on Cloudflare Pages.
+
+1.  **Source Control**: Ensure the repository is up-to-date.
+2.  **Cloudflare Configuration**:
+    -   Connect the repository in the Cloudflare Dashboard.
     -   **Build Command**: `npm run build`
     -   **Output Directory**: `dist`
-4.  **Environment Variables**:
-    -   Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in the Cloudflare settings.
-5.  **Deploy**: Click "Save and Deploy".
+3.  **Environment Variables**:
+    The following variables must be configured in the production environment:
+    -   `VITE_SUPABASE_URL`: [Your Supabase Project URL]
+    -   `VITE_SUPABASE_ANON_KEY`: [Your Supabase Anonymous Key]
 
-## 🔐 Admin Access
+## Administrative Access
 
--   **Login**: Click the lock icon in the footer.
--   **Default Passcode**: `8145`
--   **Capabilities**: Add, Edit, Delete projects; Upload media.
+The platform includes a hidden administrative layer for content management.
 
----
+-   **Access Point**: Located in the site footer (lock icon).
+-   **Authentication**: Requires a secure passcode.
+-   **Default Configuration**: Passcode `8145`.
+
+## License and Copyright
 
 &copy; 2025 Bias Fajar Khaliq. All rights reserved.
