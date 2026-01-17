@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased;
+  }
+  
+  /* Custom Scrollbar for Webkit */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-pastel-blue/50 rounded-full hover:bg-pastel-blue/80 transition-colors;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+}
