@@ -174,15 +174,25 @@ function App() {
           </motion.div>
         </header>
 
-        {/* Tech Stack Marquee */}
-        <div className="mb-20 md:mb-32 -mx-4 md:-mx-6">
+        {/* Tech Stack Marquee - Rounded & Floating */}
+        <div className="mb-20 md:mb-32">
           <TechStack lang={lang} />
         </div>
 
         {/* FEATURED STATIC SECTION */}
         <section className="mb-20 md:mb-32 max-w-4xl mx-auto">
+          {/* New Introduction Text */}
+          <div className="text-center mb-8 md:mb-10">
+            <h3 className="text-lg md:text-2xl font-bold text-gray-900 dark:text-white mb-2">
+              {t.featured.intro_title}
+            </h3>
+            <p className="text-xs md:text-sm text-gray-600 dark:text-gray-400 max-w-lg mx-auto leading-relaxed">
+              {t.featured.intro_desc}
+            </p>
+          </div>
+
           <div className="grid grid-cols-2 gap-3 md:gap-6">
-            {/* Card 1: Khaliq Repos (Dark in both themes for contrast, or specific brand color) */}
+            {/* Card 1: Khaliq Repos */}
             <motion.a 
               href="https://khaliq-repos.pages.dev"
               target="_blank"
@@ -214,7 +224,7 @@ function App() {
               </div>
             </motion.a>
 
-            {/* Card 2: Bias Resume (Light in Light Mode, Dark in Dark Mode) */}
+            {/* Card 2: Bias Resume */}
             <motion.a 
               href="https://bias-resume.pages.dev"
               target="_blank"

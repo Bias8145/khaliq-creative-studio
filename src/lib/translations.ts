@@ -19,6 +19,8 @@ export const translations = {
     },
     featured: {
       label: 'Quick Access',
+      intro_title: 'Meet the Author',
+      intro_desc: 'Dive deeper into the academic journey, theological research, and professional career of Bias Fajar Khaliq.',
       repo_badge: 'Archive',
       repo_title: 'Repository',
       repo_desc: 'Comprehensive collection of academic research, theological essays, and scholarly writings.',
@@ -101,6 +103,8 @@ export const translations = {
     },
     featured: {
       label: 'Akses Cepat',
+      intro_title: 'Mengenal Penulis',
+      intro_desc: 'Telusuri lebih jauh perjalanan akademik, riset teologis, dan latar belakang profesional Bias Fajar Khaliq.',
       repo_badge: 'Arsip',
       repo_title: 'Repositori',
       repo_desc: 'Koleksi lengkap riset akademik, esai teologis, dan tulisan ilmiah terpilih.',
