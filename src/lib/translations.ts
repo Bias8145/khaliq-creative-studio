@@ -38,7 +38,7 @@ export const translations = {
     services: {
       title: 'Open Commission',
       subtitle: 'Specialization',
-      desc: 'Specialized services tailored to your needs. Select a category below to view details.',
+      desc: 'Select a category below to view details.',
       cta: 'Inquire / Order',
       consult_hint: 'We encourage you to contact us first to discuss your specific requirements and vision.',
       contact_options_title: 'Start Conversation',
@@ -53,7 +53,25 @@ export const translations = {
         sketch: {
           title: 'Pointillism Sketch',
           desc: 'Unique hand-drawn or digital sketches using the pointillism technique. Perfect for gifts, artistic displays, or visualizations.'
+        },
+        workflow: {
+          title: 'Workflow Process',
+          desc: 'Our streamlined approach to bringing your vision to life.'
         }
+      }
+    },
+    toolkit: {
+      title: 'Creative Toolkit & Technologies',
+    },
+    workflow: {
+      badge: 'How We Work',
+      title: 'Workflow Process',
+      desc: 'A streamlined approach to bringing your vision to life, from initial concept to final launch.',
+      steps: {
+        consult: { title: 'Consultation', desc: 'We discuss your goals, requirements, and vision to create a solid roadmap.' },
+        design: { title: 'Design & Concept', desc: 'Drafting layouts, sketches, and visual styles that align with your brand.' },
+        dev: { title: 'Development', desc: 'Building the product using modern technologies for optimal performance.' },
+        launch: { title: 'Launch & Delivery', desc: 'Final testing, deployment, and handing over the polished product.' },
       }
     },
     admin: {
@@ -117,7 +135,25 @@ export const translations = {
         sketch: {
           title: 'Sketsa Pointilisme',
           desc: 'Sketsa unik (manual/digital) menggunakan teknik pointilisme (titik-titik). Sangat cocok untuk hadiah, pajangan artistik, atau visualisasi.'
+        },
+        workflow: {
+          title: 'Proses Pengerjaan',
+          desc: 'Pendekatan terstruktur kami untuk mewujudkan visi Anda.'
         }
+      }
+    },
+    toolkit: {
+      title: 'Teknologi & Alat Kreatif',
+    },
+    workflow: {
+      badge: 'Cara Kerja',
+      title: 'Proses Pengerjaan',
+      desc: 'Pendekatan terstruktur untuk mewujudkan visi Anda, dari konsep awal hingga peluncuran final.',
+      steps: {
+        consult: { title: 'Konsultasi', desc: 'Mendiskusikan tujuan, kebutuhan, dan visi Anda untuk membuat peta jalan yang solid.' },
+        design: { title: 'Desain & Konsep', desc: 'Merancang tata letak, sketsa, dan gaya visual yang selaras dengan brand Anda.' },
+        dev: { title: 'Pengembangan', desc: 'Membangun produk menggunakan teknologi modern untuk performa optimal.' },
+        launch: { title: 'Peluncuran', desc: 'Pengujian akhir, deployment, dan penyerahan produk yang telah dipoles.' },
       }
     },
     admin: {

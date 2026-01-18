@@ -9,6 +9,8 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { CommissionSection } from './components/CommissionSection';
 import { ConfirmModal } from './components/ConfirmModal';
+import { ScrollProgress } from './components/ScrollProgress';
+import { TechStack } from './components/TechStack';
 import { supabase, type Link } from './lib/supabase';
 import { Loader2, LayoutGrid, ArrowRight, BookOpen, FileUser } from 'lucide-react';
 import { translations, type Language } from './lib/translations';
@@ -19,6 +21,14 @@ function App() {
   const [filter, setFilter] = useState('All');
   const [lang, setLang] = useState<Language>('id'); 
   
+  // Theme State
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    }
+    return 'light';
+  });
+
   // Admin State
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -28,6 +38,21 @@ function App() {
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   const t = translations[lang];
+
+  // Theme Effect
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
 
   const fetchLinks = async () => {
     try {
@@ -79,11 +104,18 @@ function App() {
   const filteredLinks = filter === 'All' ? links : links.filter(l => l.category === filter);
 
   return (
-    <div className="min-h-screen text-gray-800 font-sans selection:bg-pastel-pink selection:text-gray-900 flex flex-col text-[12px] md:text-[18px]">
-      <Background />
-      <Toaster position="top-center" richColors theme="light" />
+    <div className="min-h-screen text-gray-900 dark:text-gray-100 font-sans selection:bg-pastel-pink selection:text-gray-900 flex flex-col text-[12px] md:text-[18px] transition-colors duration-300">
+      <ScrollProgress />
+      <Background theme={theme} />
+      <Toaster position="top-center" richColors theme={theme} />
       
-      <Navbar lang={lang} setLang={setLang} scrollToSection={scrollToSection} />
+      <Navbar 
+        lang={lang} 
+        setLang={setLang} 
+        scrollToSection={scrollToSection} 
+        theme={theme}
+        toggleTheme={toggleTheme}
+      />
 
       <AdminLogin 
         isOpen={isLoginOpen} 
@@ -112,28 +144,29 @@ function App() {
             transition={{ duration: 0.8 }}
             className="max-w-5xl mx-auto text-center"
           >
-            <span className="inline-block px-3 py-1 md:px-4 md:py-1.5 mb-6 md:mb-8 text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase bg-gray-900 text-white rounded-full">
+            <span className="inline-block px-3 py-1 md:px-4 md:py-1.5 mb-6 md:mb-8 text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full transition-colors shadow-md">
               {t.hero.badge}
             </span>
             
-            <h2 className="text-3xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight leading-tight">
+            <h2 className="text-3xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight leading-tight transition-colors">
               {t.hero.subtitle}
             </h2>
             
-            <p className="text-sm md:text-lg text-gray-500 font-light max-w-2xl mx-auto leading-relaxed mb-8 md:mb-10 px-4">
+            {/* Darker text in light mode for readability */}
+            <p className="text-sm md:text-lg text-gray-800 dark:text-gray-300 font-normal max-w-2xl mx-auto leading-relaxed mb-8 md:mb-10 px-4 transition-colors">
               {t.hero.description}
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 px-4">
               <button 
                 onClick={() => scrollToSection('catalog')}
-                className="px-6 py-3 md:px-8 md:py-4 bg-gray-900 text-white rounded-full font-bold hover:bg-black transition-all shadow-lg hover:shadow-xl w-full sm:w-auto text-xs md:text-base"
+                className="px-6 py-3 md:px-8 md:py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full font-bold hover:bg-black dark:hover:bg-gray-200 transition-all shadow-lg hover:shadow-xl w-full sm:w-auto text-xs md:text-base border border-transparent"
               >
                 {t.hero.cta_catalog}
               </button>
               <button 
                 onClick={() => scrollToSection('services')}
-                className="px-6 py-3 md:px-8 md:py-4 bg-white text-gray-900 border border-gray-200 rounded-full font-bold hover:bg-gray-50 transition-all w-full sm:w-auto text-xs md:text-base"
+                className="px-6 py-3 md:px-8 md:py-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700 rounded-full font-bold hover:bg-gray-50 dark:hover:bg-gray-700 transition-all w-full sm:w-auto text-xs md:text-base shadow-sm"
               >
                 {t.hero.cta_services}
               </button>
@@ -141,10 +174,15 @@ function App() {
           </motion.div>
         </header>
 
+        {/* Tech Stack Marquee */}
+        <div className="mb-20 md:mb-32 -mx-4 md:-mx-6">
+          <TechStack lang={lang} />
+        </div>
+
         {/* FEATURED STATIC SECTION */}
         <section className="mb-20 md:mb-32 max-w-4xl mx-auto">
           <div className="grid grid-cols-2 gap-3 md:gap-6">
-            {/* Card 1: Khaliq Repos */}
+            {/* Card 1: Khaliq Repos (Dark in both themes for contrast, or specific brand color) */}
             <motion.a 
               href="https://khaliq-repos.pages.dev"
               target="_blank"
@@ -152,7 +190,7 @@ function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="group relative bg-gray-900 rounded-[1.5rem] p-4 md:p-8 overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 flex flex-col justify-between h-[160px] md:h-[220px]"
+              className="group relative bg-gray-900 dark:bg-black border border-gray-800 dark:border-gray-800 rounded-[1.5rem] p-4 md:p-8 overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 flex flex-col justify-between h-[160px] md:h-[220px]"
             >
               <div className="relative z-10">
                 <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/10 backdrop-blur-md text-white/90 text-[8px] md:text-[10px] font-bold tracking-wider uppercase mb-2 border border-white/10">
@@ -161,7 +199,7 @@ function App() {
                 <h3 className="text-sm md:text-2xl font-bold text-white leading-tight mb-1 md:mb-2">
                   {t.featured.repo_title}
                 </h3>
-                <p className="text-[8px] md:text-sm text-gray-400 font-light leading-tight max-w-[85%] line-clamp-3">
+                <p className="text-[8px] md:text-sm text-gray-300 font-light leading-tight max-w-[85%] line-clamp-3">
                   {t.featured.repo_desc}
                 </p>
               </div>
@@ -171,12 +209,12 @@ function App() {
                 <ArrowRight size={10} className="md:w-4 md:h-4" />
               </div>
               
-              <div className="absolute right-2 bottom-6 md:right-[-20px] md:bottom-[-20px] opacity-10 group-hover:opacity-20 transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-6 pointer-events-none">
-                 <BookOpen size={64} className="text-white md:w-40 md:h-40" />
+              <div className="absolute right-[-10px] bottom-[-10px] opacity-10 group-hover:opacity-20 transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-6 pointer-events-none">
+                 <BookOpen size={60} className="text-white md:w-40 md:h-40" />
               </div>
             </motion.a>
 
-            {/* Card 2: Bias Resume */}
+            {/* Card 2: Bias Resume (Light in Light Mode, Dark in Dark Mode) */}
             <motion.a 
               href="https://bias-resume.pages.dev"
               target="_blank"
@@ -184,27 +222,27 @@ function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="group relative bg-white border border-gray-100 rounded-[1.5rem] p-4 md:p-8 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 flex flex-col justify-between h-[160px] md:h-[220px]"
+              className="group relative bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[1.5rem] p-4 md:p-8 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 flex flex-col justify-between h-[160px] md:h-[220px]"
             >
               <div className="relative z-10">
-                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 text-[8px] md:text-[10px] font-bold tracking-wider uppercase mb-2">
+                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-[8px] md:text-[10px] font-bold tracking-wider uppercase mb-2 border border-gray-200 dark:border-gray-700">
                   {t.featured.resume_badge}
                 </div>
-                <h3 className="text-sm md:text-2xl font-bold text-gray-900 leading-tight mb-1 md:mb-2">
+                <h3 className="text-sm md:text-2xl font-bold text-gray-900 dark:text-white leading-tight mb-1 md:mb-2 transition-colors">
                   {t.featured.resume_title}
                 </h3>
-                <p className="text-[8px] md:text-sm text-gray-500 font-light leading-tight max-w-[85%] line-clamp-3">
+                <p className="text-[8px] md:text-sm text-gray-600 dark:text-gray-400 font-light leading-tight max-w-[85%] line-clamp-3 transition-colors">
                   {t.featured.resume_desc}
                 </p>
               </div>
 
-              <div className="relative z-10 flex items-center gap-1.5 text-gray-900 text-[9px] md:text-xs font-bold uppercase tracking-wider group-hover:translate-x-1 transition-transform mt-auto">
+              <div className="relative z-10 flex items-center gap-1.5 text-gray-900 dark:text-white text-[9px] md:text-xs font-bold uppercase tracking-wider group-hover:translate-x-1 transition-transform mt-auto">
                 <span>{t.featured.resume_cta}</span>
                 <ArrowRight size={10} className="md:w-4 md:h-4" />
               </div>
 
-              <div className="absolute right-2 bottom-6 md:right-[-20px] md:bottom-[-20px] opacity-[0.05] group-hover:opacity-[0.1] transition-all duration-500 transform group-hover:scale-110 pointer-events-none">
-                 <FileUser size={64} className="text-gray-900 md:w-40 md:h-40" />
+              <div className="absolute right-[-10px] bottom-[-10px] opacity-[0.05] group-hover:opacity-[0.1] transition-all duration-500 transform group-hover:scale-110 pointer-events-none">
+                 <FileUser size={60} className="text-gray-900 dark:text-white md:w-40 md:h-40" />
               </div>
             </motion.a>
           </div>
@@ -212,8 +250,8 @@ function App() {
 
         {/* DYNAMIC GALLERY SECTION */}
         <section id="catalog" className="mb-20 md:mb-32 max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 md:mb-10 gap-4 md:gap-6 border-b border-gray-100 pb-4 md:pb-6">
-            <h3 className="text-xl md:text-2xl font-bold text-gray-900">{t.catalog.title}</h3>
+          <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 md:mb-10 gap-4 md:gap-6 border-b border-gray-200 dark:border-gray-800 pb-4 md:pb-6 transition-colors">
+            <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white transition-colors">{t.catalog.title}</h3>
             
             {/* Filter Navigation */}
             {links.length > 0 && (
@@ -222,10 +260,10 @@ function App() {
                   <button
                     key={cat}
                     onClick={() => setFilter(cat)}
-                    className={`text-[10px] md:text-xs font-bold tracking-wide transition-all duration-300 px-3 py-1.5 md:px-4 md:py-2 rounded-full ${
+                    className={`text-[10px] md:text-xs font-bold tracking-wide transition-all duration-300 px-3 py-1.5 md:px-4 md:py-2 rounded-full border ${
                       filter === cat 
-                        ? 'bg-gray-900 text-white shadow-md' 
-                        : 'bg-white text-gray-400 hover:text-gray-900 border border-gray-100'
+                        ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-md border-transparent' 
+                        : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 border-gray-200 dark:border-gray-700'
                     }`}
                   >
                     {cat}
@@ -238,7 +276,7 @@ function App() {
           {/* Gallery Grid */}
           {loading ? (
             <div className="flex justify-center py-20">
-              <Loader2 className="animate-spin text-gray-300 w-8 h-8" />
+              <Loader2 className="animate-spin text-gray-400 dark:text-gray-600 w-8 h-8" />
             </div>
           ) : links.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
@@ -254,15 +292,15 @@ function App() {
               ))}
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center py-16 md:py-24 text-gray-400 border border-dashed border-gray-200 rounded-[2rem] bg-white/30">
+            <div className="flex flex-col items-center justify-center py-16 md:py-24 text-gray-600 dark:text-gray-500 border border-dashed border-gray-300 dark:border-gray-800 rounded-[2rem] bg-white/50 dark:bg-gray-900/30 transition-colors">
               <LayoutGrid size={32} className="mb-3 opacity-50 md:w-10 md:h-10" />
-              <p className="text-sm md:text-base font-light">{t.catalog.empty}</p>
+              <p className="text-sm md:text-base font-medium">{t.catalog.empty}</p>
               {isAdmin && <p className="text-xs mt-2 text-gray-500">{t.catalog.empty_admin}</p>}
             </div>
           )}
         </section>
 
-        {/* COMMISSION SECTION */}
+        {/* COMMISSION SECTION (Includes Workflow) */}
         <CommissionSection lang={lang} />
       </main>
 

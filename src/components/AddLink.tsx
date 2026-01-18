@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, X, Loader2, Wand2, Upload, Link as LinkIcon, Image as ImageIcon, FileText, Save, Video, AlertCircle } from 'lucide-react';
+import { Plus, X, Loader2, Wand2, Upload, Link as LinkIcon, Image as ImageIcon, FileText, Save, Video } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase, type Link } from '../lib/supabase';
 import { fetchMetadata } from '../lib/utils';
@@ -184,7 +184,7 @@ export const AddLink = ({ onAdd, isAdmin, linkToEdit, onCloseEdit }: AddLinkProp
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-10 right-10 w-16 h-16 bg-gray-900 text-white rounded-full shadow-2xl flex items-center justify-center z-[9990] hover:bg-black transition-colors border-4 border-white/20 backdrop-blur-sm"
+          className="fixed bottom-10 right-10 w-16 h-16 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full shadow-2xl flex items-center justify-center z-[9990] hover:bg-black dark:hover:bg-gray-200 transition-colors border-4 border-white/20 dark:border-gray-800/20 backdrop-blur-sm"
           title="Add New Project"
         >
           <Plus size={28} />
@@ -206,33 +206,33 @@ export const AddLink = ({ onAdd, isAdmin, linkToEdit, onCloseEdit }: AddLinkProp
               initial={{ scale: 0.95, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
-              className="relative w-full max-w-2xl bg-white border border-gray-100 rounded-[2.5rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] p-8 overflow-hidden max-h-[90vh] overflow-y-auto"
+              className="relative w-full max-w-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] p-8 overflow-hidden max-h-[90vh] overflow-y-auto transition-colors"
             >
-              <div className="flex justify-between items-center mb-8 sticky top-0 bg-white z-10 pb-4 border-b border-gray-50">
+              <div className="flex justify-between items-center mb-8 sticky top-0 bg-white dark:bg-gray-900 z-10 pb-4 border-b border-gray-100 dark:border-gray-800">
                 <div>
-                  <h2 className="text-3xl font-bold text-gray-900">
+                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
                     {linkToEdit ? 'Edit Project' : 'Update Gallery'}
                   </h2>
-                  <p className="text-gray-500 text-sm mt-1">
+                  <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
                     {linkToEdit ? 'Modify existing details.' : 'Add a new piece to your collection.'}
                   </p>
                 </div>
-                <button onClick={() => setIsOpen(false)} className="p-3 bg-gray-50 hover:bg-gray-100 rounded-full transition-colors">
-                  <X size={20} className="text-gray-600" />
+                <button onClick={() => setIsOpen(false)} className="p-3 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors">
+                  <X size={20} className="text-gray-600 dark:text-gray-300" />
                 </button>
               </div>
 
               {!linkToEdit && (
-                <div className="flex p-1.5 bg-gray-50 rounded-2xl mb-8 border border-gray-100">
+                <div className="flex p-1.5 bg-gray-50 dark:bg-gray-800 rounded-2xl mb-8 border border-gray-200 dark:border-gray-700">
                   <button 
                       onClick={() => setMode('manual')}
-                      className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all ${mode === 'manual' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-400 hover:text-gray-600'}`}
+                      className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all ${mode === 'manual' ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-900 dark:text-white border border-gray-200 dark:border-transparent' : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'}`}
                   >
                       Manual Entry
                   </button>
                   <button 
                       onClick={() => setMode('auto')}
-                      className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2 ${mode === 'auto' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-400 hover:text-gray-600'}`}
+                      className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2 ${mode === 'auto' ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-900 dark:text-white border border-gray-200 dark:border-transparent' : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'}`}
                   >
                       <Wand2 size={14} /> Auto-Fetch
                   </button>
@@ -242,24 +242,24 @@ export const AddLink = ({ onAdd, isAdmin, linkToEdit, onCloseEdit }: AddLinkProp
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Title <span className="text-red-400">*</span></label>
+                    <label className="text-xs font-bold text-gray-700 dark:text-gray-500 uppercase tracking-wider ml-1">Title <span className="text-red-400">*</span></label>
                     <input
                         type="text"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         placeholder="Project Name"
-                        className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-gray-200 focus:ring-0 transition-all placeholder:text-gray-300 font-medium"
+                        className="w-full px-5 py-4 rounded-2xl bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-transparent focus:bg-white dark:focus:bg-gray-700 focus:border-gray-400 dark:focus:border-gray-600 focus:ring-0 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500 font-medium text-gray-900 dark:text-white"
                         required
                     />
                     </div>
 
                     <div className="space-y-2">
-                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Category</label>
+                    <label className="text-xs font-bold text-gray-700 dark:text-gray-500 uppercase tracking-wider ml-1">Category</label>
                     <div className="relative">
                         <select
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
-                            className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-gray-200 focus:ring-0 transition-all appearance-none font-medium text-gray-700"
+                            className="w-full px-5 py-4 rounded-2xl bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-transparent focus:bg-white dark:focus:bg-gray-700 focus:border-gray-400 dark:focus:border-gray-600 focus:ring-0 transition-all appearance-none font-medium text-gray-900 dark:text-gray-200"
                         >
                             <option value="Project">Project</option>
                             <option value="Resume">Resume</option>
@@ -271,16 +271,16 @@ export const AddLink = ({ onAdd, isAdmin, linkToEdit, onCloseEdit }: AddLinkProp
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Destination URL <span className="text-gray-300 font-normal normal-case">(Optional)</span></label>
+                  <label className="text-xs font-bold text-gray-700 dark:text-gray-500 uppercase tracking-wider ml-1">Destination URL <span className="text-gray-400 dark:text-gray-600 font-normal normal-case">(Optional)</span></label>
                   <div className="flex gap-3">
                     <div className="flex-1 relative">
-                        <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                        <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" size={18} />
                         <input
                         type="url"
                         value={url}
                         onChange={(e) => setUrl(e.target.value)}
                         placeholder="https://..."
-                        className="w-full pl-12 pr-4 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-gray-200 focus:ring-0 transition-all placeholder:text-gray-300 font-medium"
+                        className="w-full pl-12 pr-4 py-4 rounded-2xl bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-transparent focus:bg-white dark:focus:bg-gray-700 focus:border-gray-400 dark:focus:border-gray-600 focus:ring-0 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500 font-medium text-gray-900 dark:text-white"
                         />
                     </div>
                     {mode === 'auto' && (
@@ -288,7 +288,7 @@ export const AddLink = ({ onAdd, isAdmin, linkToEdit, onCloseEdit }: AddLinkProp
                         type="button"
                         onClick={handleAutoFetch}
                         disabled={isFetching || !url}
-                        className="px-6 py-2 bg-gray-900 text-white rounded-2xl hover:bg-black transition-colors disabled:opacity-50 font-medium"
+                        className="px-6 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-2xl hover:bg-black dark:hover:bg-gray-200 transition-colors disabled:opacity-50 font-medium"
                         >
                         {isFetching ? <Loader2 className="animate-spin" size={18} /> : 'Fetch'}
                         </button>
@@ -297,25 +297,25 @@ export const AddLink = ({ onAdd, isAdmin, linkToEdit, onCloseEdit }: AddLinkProp
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Description</label>
+                  <label className="text-xs font-bold text-gray-700 dark:text-gray-500 uppercase tracking-wider ml-1">Description</label>
                   <textarea
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Describe the essence of this work..."
                     rows={3}
-                    className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-gray-200 focus:ring-0 transition-all placeholder:text-gray-300 resize-none font-medium"
+                    className="w-full px-5 py-4 rounded-2xl bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-transparent focus:bg-white dark:focus:bg-gray-700 focus:border-gray-400 dark:focus:border-gray-600 focus:ring-0 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500 resize-none font-medium text-gray-900 dark:text-white"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Gallery Files (Images, PDF, Video)</label>
+                  <label className="text-xs font-bold text-gray-700 dark:text-gray-500 uppercase tracking-wider ml-1">Gallery Files (Images, PDF, Video)</label>
                   
-                  <div className="p-4 rounded-3xl border-2 border-dashed border-gray-200 hover:border-gray-300 transition-colors bg-gray-50/50">
+                  <div className="p-4 rounded-3xl border-2 border-dashed border-gray-300 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-600 transition-colors bg-gray-50/50 dark:bg-gray-800/50">
                     <div className="flex flex-col gap-4">
                         {imageUrls.length > 0 && (
                             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                                 {imageUrls.map((img, idx) => (
-                                    <div key={idx} className="relative aspect-square rounded-xl overflow-hidden shadow-sm group bg-white border border-gray-100 flex items-center justify-center">
+                                    <div key={idx} className="relative aspect-square rounded-xl overflow-hidden shadow-sm group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center">
                                         {isPdf(img) ? (
                                             <div className="flex flex-col items-center justify-center text-gray-400 gap-2">
                                                 <FileText size={32} />
@@ -335,7 +335,7 @@ export const AddLink = ({ onAdd, isAdmin, linkToEdit, onCloseEdit }: AddLinkProp
                                               className="w-full h-full object-cover" 
                                               onError={(e) => {
                                                 e.currentTarget.style.display = 'none';
-                                                e.currentTarget.parentElement?.classList.add('bg-red-50');
+                                                e.currentTarget.parentElement?.classList.add('bg-red-50', 'dark:bg-red-900/20');
                                                 // Show fallback icon
                                                 const icon = document.createElement('div');
                                                 icon.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-300"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
@@ -347,7 +347,7 @@ export const AddLink = ({ onAdd, isAdmin, linkToEdit, onCloseEdit }: AddLinkProp
                                         <button 
                                             type="button"
                                             onClick={() => removeImage(idx)}
-                                            className="absolute top-1 right-1 p-1.5 bg-white/90 rounded-full text-red-500 opacity-0 group-hover:opacity-100 transition-opacity shadow-sm z-10"
+                                            className="absolute top-1 right-1 p-1.5 bg-white/90 dark:bg-gray-900/90 rounded-full text-red-500 opacity-0 group-hover:opacity-100 transition-opacity shadow-sm z-10"
                                         >
                                             <X size={14} />
                                         </button>
@@ -361,7 +361,7 @@ export const AddLink = ({ onAdd, isAdmin, linkToEdit, onCloseEdit }: AddLinkProp
 
                         <div className="flex flex-col items-center justify-center py-4 text-center">
                             {imageUrls.length === 0 && (
-                                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm mb-3 text-gray-400">
+                                <div className="w-12 h-12 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center shadow-sm mb-3 text-gray-400 dark:text-gray-500 border border-gray-200 dark:border-gray-700">
                                     <ImageIcon size={20} />
                                 </div>
                             )}
@@ -379,7 +379,7 @@ export const AddLink = ({ onAdd, isAdmin, linkToEdit, onCloseEdit }: AddLinkProp
                                     type="button"
                                     onClick={() => fileInputRef.current?.click()}
                                     disabled={isUploading}
-                                    className="w-full py-3 bg-white border border-gray-200 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 text-sm font-medium shadow-sm"
+                                    className="w-full py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center justify-center gap-2 text-sm font-medium shadow-sm"
                                 >
                                     {isUploading ? <Loader2 className="animate-spin" size={16} /> : (
                                         <>
@@ -389,7 +389,7 @@ export const AddLink = ({ onAdd, isAdmin, linkToEdit, onCloseEdit }: AddLinkProp
                                     )}
                                 </button>
                             </div>
-                            <p className="text-xs text-gray-400 mt-2">Supports JPG, PNG, PDF, MP4, WebM.</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">Supports JPG, PNG, PDF, MP4, WebM.</p>
                         </div>
                     </div>
                   </div>
@@ -398,7 +398,7 @@ export const AddLink = ({ onAdd, isAdmin, linkToEdit, onCloseEdit }: AddLinkProp
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full py-5 bg-gray-900 text-white rounded-2xl font-bold text-lg tracking-wide hover:bg-black transition-all shadow-xl hover:shadow-2xl disabled:opacity-70 flex items-center justify-center gap-2 mt-6"
+                  className="w-full py-5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-2xl font-bold text-lg tracking-wide hover:bg-black dark:hover:bg-gray-200 transition-all shadow-xl hover:shadow-2xl disabled:opacity-70 flex items-center justify-center gap-2 mt-6"
                 >
                   {isLoading ? <Loader2 className="animate-spin" /> : (
                     <>

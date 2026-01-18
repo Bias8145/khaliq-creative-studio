@@ -38,22 +38,22 @@ export const ConfirmModal = ({
             initial={{ scale: 0.95, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 20 }}
-            className="relative w-full max-w-md bg-white border border-gray-100 rounded-[2rem] shadow-2xl p-8 overflow-hidden"
+            className="relative w-full max-w-md bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-[2rem] shadow-2xl p-8 overflow-hidden"
           >
             <div className="flex flex-col items-center text-center">
-              <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-5 ${isDestructive ? 'bg-red-50 text-red-500' : 'bg-gray-50 text-gray-900'}`}>
+              <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-5 ${isDestructive ? 'bg-red-50 dark:bg-red-900/20 text-red-500' : 'bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white'}`}>
                 <AlertTriangle size={32} strokeWidth={1.5} />
               </div>
               
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">{title}</h3>
-              <p className="text-gray-500 font-light leading-relaxed mb-8">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{title}</h3>
+              <p className="text-gray-500 dark:text-gray-400 font-light leading-relaxed mb-8">
                 {message}
               </p>
 
               <div className="flex gap-3 w-full">
                 <button
                   onClick={onCancel}
-                  className="flex-1 py-3 px-4 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-xl font-bold transition-colors"
+                  className="flex-1 py-3 px-4 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl font-bold transition-colors"
                 >
                   {cancelText}
                 </button>
@@ -62,7 +62,7 @@ export const ConfirmModal = ({
                   className={`flex-1 py-3 px-4 text-white rounded-xl font-bold shadow-lg transition-all ${
                     isDestructive 
                       ? 'bg-red-500 hover:bg-red-600 hover:shadow-red-500/30' 
-                      : 'bg-gray-900 hover:bg-black hover:shadow-gray-900/30'
+                      : 'bg-gray-900 dark:bg-white dark:text-gray-900 hover:bg-black dark:hover:bg-gray-200 hover:shadow-gray-900/30'
                   }`}
                 >
                   {confirmText}
